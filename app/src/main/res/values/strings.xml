@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">Geo Quiz KT</string>
-    <string name="question_text">Camberra es Capital de Australia?</string>
-    <string name="boton_verdadero">Verdadero</string>
-    <string name="boton_falso">Falso</string>
+
     <string name="correct_toast">Correcto</string>
     <string name="incorrect_toast">Incorrecto</string>
     <string name="light_mode_button_text">Cambiar a Claro</string>
     <string name="dark_mode_button_text">Cambiar a Oscuro</string>
+    <string name="pregunta_australia">Camberra es la capital de Australia</string>
+    <string name="pregunta_oceanos">El oceano Pacifico es mas grande que el oceano Atlantico</string>
+    <string name="pregunta_medio_oriente">mediooriente</string>
+    <string name="pregunta_africa">AFRICA</string>
+    <string name="pregunta_america">AMERICA</string>
+    <string name="pregunta_asia">ASIA</string>
+
 </resources>
