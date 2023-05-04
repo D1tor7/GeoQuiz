@@ -1,4 +1,5 @@
 package com.example.geoquiz
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,8 +10,12 @@ import com.example.geoquiz.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
-    private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
+    companion object{
+        private val TAG = "MainActivity"
+        val KEY_INDEX_IA="index"
+    }
+
 
     var numRespuestasCorrectas = 0
     var numPreguntasContestadas = 0
@@ -34,9 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG,"onCreate() fue llamado")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (savedInstanceState !=null){
+            indiceActual=savedInstanceState.getInt(KEY_INDEX_IA,0)
+        }
         var pregunta:Int=preguntas[indiceActual].idRpta
         binding.tvPregunta.text=getString(pregunta)
 
@@ -67,7 +76,8 @@ class MainActivity : AppCompatActivity() {
                 indiceActual+=1
                 pregunta=preguntas[indiceActual].idRpta
                 binding.tvPregunta.text=getString(pregunta)
-                binding.trueButton.isEnabled = false
+                binding.trueButton.isEnabled = true // Habilitar botón "Verdadero"
+                binding.falseButton.isEnabled = true // Habilitar botón "Falso"
             } else {
                 val porcentaje = numRespuestasCorrectas * 100 / preguntas.size
                 Toast.makeText(this, "¡Has llegado al final!", Toast.LENGTH_SHORT).show()
@@ -81,21 +91,15 @@ class MainActivity : AppCompatActivity() {
                 pregunta = preguntas[indiceActual].idRpta
                 binding.tvPregunta.text = getString(pregunta)
                 binding.trueButton.isEnabled = false
+                binding.falseButton.isEnabled = false
             } else {
                 Toast.makeText(this, "¡Esta es la primera pregunta!", Toast.LENGTH_SHORT).show()
             }
         }
-        fun verificarRespuesta(rptaUsuario:Boolean){
-            var rptaCorrecta=preguntas[indiceActual].rptaVerdadera
-            var msgRpta:Int=0
-            if (rptaUsuario==rptaCorrecta) {
-                msgRpta = R.string.correct_toast
-                numRespuestasCorrectas++
-            } else {
-                msgRpta = R.string.incorrect_toast
-            }
-            Toast.makeText(this,msgRpta,Toast.LENGTH_SHORT).show()
-            numPreguntasContestadas++
+        binding.botonHacerTrampa!!.setOnClickListener{
+            val rptaCorrecta=preguntas[indiceActual].rptaVerdadera
+            val intento=TrampaActivity.nuevoIntent(this,rptaCorrecta)
+            startActivity(intento)
         }
 
     }
@@ -122,9 +126,23 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,"onDestroy() fue llamado")
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.i(TAG,"onSaveIsntanceState() fue llamado")
+        outState.putInt(KEY_INDEX_IA,indiceActual)
+    }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Ajustar la vista según la nueva orientación de la pantalla
+        setContentView(binding.root)
+        // Restaurar el estado actual de la actividad
+        var pregunta:Int=preguntas[indiceActual].idRpta
+        binding.tvPregunta.text=getString(pregunta)
+        setLayoutBackground() //
+        setDarkModeButtonText() //
 
-
+    }
 
 
 
@@ -139,11 +157,23 @@ class MainActivity : AppCompatActivity() {
             binding.tvPregunta.setTextColor(ContextCompat.getColor(this, R.color.light_text))
         }
     }
-    private fun verificarRespuesta(rptaUsuario:Boolean){
-        var rptaCorrecta=preguntas[indiceActual].rptaVerdadera
-        var msgRpta:Int=0
-        msgRpta=if (rptaUsuario==rptaCorrecta)R.string.correct_toast else R.string.incorrect_toast
-        Toast.makeText(this,msgRpta,Toast.LENGTH_SHORT).show()
+    fun verificarRespuesta(rptaUsuario:Boolean){
+        val rptaCorrecta = preguntas[indiceActual].rptaVerdadera
+        val msgRpta = if (rptaUsuario == rptaCorrecta) {
+            numRespuestasCorrectas++
+            R.string.correct_toast
+        } else {
+            R.string.incorrect_toast
+        }
+        Toast.makeText(this, msgRpta, Toast.LENGTH_SHORT).show()
+        numPreguntasContestadas++ // Incrementar el contador de preguntas contestadas
+
+        // Deshabilitar el botón "Verdadero" y "Falso"
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+
+        // Avanzar a la siguiente pregunta automáticamente
+        binding.botonSiguiente.performClick()
     }
 
 

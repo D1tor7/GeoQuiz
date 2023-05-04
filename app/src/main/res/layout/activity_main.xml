@@ -56,7 +56,15 @@
             android:layout_gravity="center"
             android:text="Falso"
             style="?android:attr/buttonBarButtonStyle" />
+
     </LinearLayout>
+        <Button
+            android:id="@+id/botonHacerTrampa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Hacer trampa"
+            ></Button>
         <ImageButton
             android:id="@+id/botonAnterior"
             android:layout_width="wrap_content"

@@ -7,9 +7,14 @@
     <string name="dark_mode_button_text">Cambiar a Oscuro</string>
     <string name="pregunta_australia">Camberra es la capital de Australia</string>
     <string name="pregunta_oceanos">El oceano Pacifico es mas grande que el oceano Atlantico</string>
-    <string name="pregunta_medio_oriente">mediooriente</string>
-    <string name="pregunta_africa">AFRICA</string>
-    <string name="pregunta_america">AMERICA</string>
-    <string name="pregunta_asia">ASIA</string>
+    <string name="pregunta_medio_oriente">El canal de Suez conecta al mar rojo con el oceano indico</string>
+    <string name="pregunta_africa">la fuente del rio Nilo esta en Egipto</string>
+    <string name="pregunta_america">El rio Amazonas es el mas largo de America</string>
+    <string name="pregunta_asia">El lago Baikal es la fuente de agua dulce mas antigua y profunda</string>
+    <string name="show_answer_button">Mostrar</string>
+    <string name="boton_trampa">Trampa</string>
+    <string name="warning_text">No es Correcto hacer trampa</string>
+    <string name="afirmacion_correcta">Verdadero</string>
+    <string name="afirmacion_incorrecta">Falso</string>
 
 </resources>
